@@ -1,0 +1,8 @@
+.idea
+node_modules
+frontend/css
+frontend/js
+records
+tmp
+libs
+release

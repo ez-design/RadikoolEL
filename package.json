@@ -1,0 +1,50 @@
+{
+  "name": "RadikoolEL",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "run": "electron .",
+    "win32" : "node build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@angular/animations": "^4.2.4",
+    "@angular/common": "^4.2.4",
+    "@angular/compiler": "^4.2.4",
+    "@angular/compiler-cli": "^4.2.4",
+    "@angular/core": "^4.2.4",
+    "@angular/forms": "^4.2.4",
+    "@angular/http": "^4.2.4",
+    "@angular/platform-browser": "^4.2.4",
+    "@angular/platform-browser-dynamic": "^4.2.4",
+    "@angular/platform-server": "^4.2.4",
+    "@angular/router": "^4.2.4",
+    "bulma": "^0.4.2",
+    "core-js": "^2.4.1",
+    "css-loader": "^0.28.4",
+    "electron": "1.6.11",
+    "electron-packager": "^8.7.1",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "file-loader": "^0.11.2",
+    "font-awesome": "^4.7.0",
+    "node-sass": "^4.5.3",
+    "rxjs": "^5.4.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "ts-loader": "^2.2.0",
+    "typescript": "^2.3.4",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.0.0",
+    "zone.js": "^0.8.12"
+  },
+  "dependencies": {
+    "fs-extra": "^3.0.1",
+    "klaw": "^2.0.0",
+    "xml2js": "^0.4.17"
+  }
+}

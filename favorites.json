@@ -1,0 +1,31 @@
+[
+    {
+        "station_id": "BAYFM78",
+        "program": {
+            "ft": "20171105180000",
+            "to": "20171105190000",
+            "img": "https://radiko.jp/res/program/DEFAULT_IMAGE/BAYFM78/20170824132753.jpg",
+            "info": "<img src=\"http://www.bayfm.jp/images/dj_photo160/kobayashi_katsuya.jpg\"><br>番組宛メール　<a href=\"mailto:beatles@bayfm.co.jp\">beatles@bayfm.co.jp</a><br><br>twitterアカウントは「<a href=\"http://twitter.com/#!/bayfm78MHz\">@bayfm78MHz</a>」<br>twitterハッシュタグは「<a href=\"http://twitter.com/#!/search/%23bayfm\">#bayfm</a>」",
+            "pfm": "小林克也",
+            "title": "「ビートルズから始まる。」",
+            "tsInNg": "0",
+            "tsOutNg": "0",
+            "downloadable": true
+        },
+        "station_name": ""
+    },
+    {
+        "station_id": "FM-FUJI",
+        "program": {
+            "ft": "20171105200000",
+            "to": "20171105223000",
+            "img": "https://radiko.jp/res/program/DEFAULT_IMAGE/FM-FUJI/20170918142737.jpg",
+            "info": "<a href=\"http://www.fmfuji.jp/mail.php?cd=37\" title=\"ROCKADOM”\" target=\"_blank\">rockadom@fmfuji.jp</a><br />twitterアカウントは「<a href=\"http://twitter.com/#!/jocvfm\">@jocvfm</a>」",
+            "pfm": "伊藤政則 ",
+            "title": "ROCKADOM",
+            "tsInNg": "0",
+            "tsOutNg": "0",
+            "downloadable": true
+        }
+    }
+]

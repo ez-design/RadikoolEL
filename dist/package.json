@@ -1,0 +1,12 @@
+{
+  "name": "RadikoolEL",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ez-design",
+  "license": "MIT"
+}
