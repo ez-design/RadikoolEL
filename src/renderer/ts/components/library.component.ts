@@ -3,6 +3,7 @@ import {ConfigService} from '../services/config.service';
 import {IConfig} from '../interfaces/config.interface';
 import {ILibrary} from "../interfaces/library.interface";
 import {StateService} from "../services/state.service";
+import {LibraryService} from "../services/library.service";
 
 
 @Component({
@@ -38,11 +39,8 @@ export class LibraryComponent implements OnInit, OnDestroy{
     private sub;
 
     ngOnInit() {
-        this.sub = this.stateService.isDownloading.subscribe(value =>{
-           if(!value){
-               this.config = this.configService.config.getValue();
-               this.refresh();
-           }
+        this.sub = this.libraryService.libraries.subscribe(value =>{
+           this.files = value;
         });
 
     }
@@ -53,52 +51,8 @@ export class LibraryComponent implements OnInit, OnDestroy{
 
     constructor(
         private stateService: StateService,
-        private configService: ConfigService){}
-
-    public refresh = () => {
-        let klaw = require('klaw');
-        let path = require('path');
-        let files = [];
-        let kl = klaw(this.config.saveDir)
-            .on('readable', () => {
-                var item
-                while ((item = kl.read())) {
-                    if (!item.stats.isDirectory()) {
-                        let size;
-                        if(item.stats.size < 1000){
-                            size = item.stats.size + 'B';
-                        } else if(item.stats.size < 1000000){
-                            size = Math.round((item.stats.size / 1000)) + 'KB';
-                        } else {
-                            size = (item.stats.size / 1000000).toFixed(1) + 'MB';
-                        }
-
-                        files.push({
-                            name: path.basename(item.path),
-                            lastUpdate: item.stats.mtime,
-                            size: size,
-                            fullName: item.path
-                        });
-                    }
-                }
-
-            })
-            .on('end', () => {
-                files.sort((a, b) => {
-                    if (a.lastUpdate > b.lastUpdate) {
-                        return -1;
-                    }
-                    if (a.lastUpdate < b.lastUpdate) {
-                        return 1;
-                    }
-                    return 0;
-                });
-
-                this.files = files;
-                console.log(this.files);
-            });
-
-    };
+        private configService: ConfigService,
+        private libraryService: LibraryService){}
 
     private onClick = (library:ILibrary) =>{
         this.play.emit({name: library.fullName, fullName: 'file://' + library.fullName, size: library.size, lastUpdate: library.lastUpdate});

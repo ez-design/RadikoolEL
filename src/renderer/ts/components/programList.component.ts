@@ -7,6 +7,7 @@ import {ConfigService} from '../services/config.service';
 import {IConfig} from '../interfaces/config.interface';
 import {ILibrary} from '../interfaces/library.interface';
 import {StateService} from '../services/state.service';
+import {LibraryService} from "../services/library.service";
 
 @Component({
     selector: 'ProgramList',
@@ -40,11 +41,17 @@ import {StateService} from '../services/state.service';
                     <span *ngIf="selectedProgram.title">{{selectedProgram.title}}</span>
                     <span *ngIf="selectedProgram.pfm">{{selectedProgram.pfm}}</span>
                 </p>
-                <button type="button" class="button is-info" (click)="onClickDownload(program)" *ngIf="selectedProgram.downloadable">
+                <button type="button" class="button is-info" (click)="onClickDownload(program)" *ngIf="selectedProgram.downloadable && !selectedProgram.library">
                     <span class="icon">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </span>
                     <span>保存</span>
+                </button>
+                <button type="button" class="button is-info" (click)="onClickPlay(program)" *ngIf="selectedProgram.library">
+                    <span class="icon">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    </span>
+                    <span>再生</span>
                 </button>
             </div>
         </div>
@@ -91,7 +98,8 @@ export class ProgramListComponent implements OnInit, OnDestroy, OnChanges{
     constructor(
         private stateService: StateService,
         private radikoService: RadikoService,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private libraryService: LibraryService
     ){}
 
     /**
@@ -182,6 +190,7 @@ export class ProgramListComponent implements OnInit, OnDestroy, OnChanges{
      * @param p
      */
     private onClickProgram = (p) =>{
+        p.library = this.libraryService.getLibrary(this.station.id, p);
         this.selectedProgram = p;
     };
 
@@ -219,6 +228,13 @@ export class ProgramListComponent implements OnInit, OnDestroy, OnChanges{
                 }
             );
         }
+    };
+
+    /**
+     * 再生
+     */
+    private onClickPlay = (program:IProgram) =>{
+        this.play.emit(program.library);
     };
 
 }

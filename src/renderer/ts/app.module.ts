@@ -14,6 +14,7 @@ import { LibraryComponent     } from './components/library.component';
 import { Setting              } from './setting';
 import { PlayerComponent      } from './components/player.component';
 import { StateService         } from './services/state.service';
+import {LibraryService} from "./services/library.service";
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { StateService         } from './services/state.service';
         RadikoService,
         ConfigService,
         StateService,
+        LibraryService,
         Setting
     ],
     bootstrap: [AppComponent]

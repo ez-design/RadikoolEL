@@ -1,3 +1,5 @@
+import {ILibrary} from "./library.interface";
+
 export interface IProgram{
     ft: string;
     to: string;
@@ -8,4 +10,5 @@ export interface IProgram{
     tsInNg: number;
     tsOutNg: number;
     downloadable:boolean;
+    library: ILibrary;
 }

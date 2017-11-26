@@ -36,7 +36,7 @@ class WebView extends HTMLElement{
                         <StationList (selectStation)="onSelectStation($event)"></StationList>
                     </div>
                     <div style="width: 75%; flex-grow: 1">
-                        <ProgramList [station]="station" *ngIf="station"></ProgramList>
+                        <ProgramList [station]="station" *ngIf="station" (play)="onPlay($event)"></ProgramList>
                     </div>
                 </ng-container>
                 <div [hidden]="tool != 'library'" style="width: 100%">
