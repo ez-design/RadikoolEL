@@ -41,13 +41,13 @@ import {LibraryService} from "../services/library.service";
                     <span *ngIf="selectedProgram.title">{{selectedProgram.title}}</span>
                     <span *ngIf="selectedProgram.pfm">{{selectedProgram.pfm}}</span>
                 </p>
-                <button type="button" class="button is-info" (click)="onClickDownload(program)" *ngIf="selectedProgram.downloadable && !selectedProgram.library">
+                <button type="button" class="button is-info" (click)="onClickDownload()" *ngIf="selectedProgram.downloadable && !selectedProgram.library">
                     <span class="icon">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </span>
                     <span>保存</span>
                 </button>
-                <button type="button" class="button is-info" (click)="onClickPlay(program)" *ngIf="selectedProgram.library">
+                <button type="button" class="button is-info" (click)="onClickPlay()" *ngIf="selectedProgram.library">
                     <span class="icon">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </span>
@@ -233,8 +233,8 @@ export class ProgramListComponent implements OnInit, OnDestroy, OnChanges{
     /**
      * 再生
      */
-    private onClickPlay = (program:IProgram) =>{
-        this.play.emit(program.library);
+    private onClickPlay = () =>{
+        this.play.emit({name: this.selectedProgram.library.fullName, fullName: 'file://' + this.selectedProgram.library.fullName, size: this.selectedProgram.library.size, lastUpdate: this.selectedProgram.library.lastUpdate});
     };
 
 }

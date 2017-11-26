@@ -6,6 +6,7 @@ import {StateService} from "./state.service";
 import {ConfigService} from "./config.service";
 import {IProgram} from "../interfaces/program.interface";
 
+let path = require('path');
 @Injectable()
 export class LibraryService{
     public libraries:BehaviorSubject<ILibrary[]> = new BehaviorSubject<ILibrary[]>([]);
@@ -30,10 +31,7 @@ export class LibraryService{
      * @returns {ILibrary}
      */
     public getLibrary = (stationId, program :IProgram) =>{
-        let filename = program.title + '.aac';
-        let path = require('path');
-        filename = path.join(this.config.saveDir, stationId, program.ft.substr(0, 8), filename);
-        return this.libraries.getValue().filter(l => l.fullName == filename)[0];
+        return this.libraries.getValue().filter(l => l.fullName.indexOf(program.title) != -1 && l.fullName.indexOf(stationId) != -1 && l.fullName.indexOf(program.ft.substr(0, 8)) != -1)[0];
     };
 
     /**
