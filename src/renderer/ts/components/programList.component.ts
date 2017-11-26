@@ -41,11 +41,11 @@ import {LibraryService} from "../services/library.service";
                     <span *ngIf="selectedProgram.title">{{selectedProgram.title}}</span>
                     <span *ngIf="selectedProgram.pfm">{{selectedProgram.pfm}}</span>
                 </p>
-                <button type="button" class="button is-info" (click)="onClickDownload()" *ngIf="selectedProgram.downloadable && !selectedProgram.library">
+                <button type="button" class="button is-info" (click)="onClickDownload()" *ngIf="selectedProgram.downloadable">
                     <span class="icon">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </span>
-                    <span>保存</span>
+                    <span>{{ !selectedProgram.library ? 'ダウンロード' : '再ダウンロード' }}</span>
                 </button>
                 <button type="button" class="button is-info" (click)="onClickPlay()" *ngIf="selectedProgram.library">
                     <span class="icon">
@@ -199,34 +199,37 @@ export class ProgramListComponent implements OnInit, OnDestroy, OnChanges{
      * タイムフリーダウンロード
      */
     private onClickDownload = () =>{
-        if(!this.loading) {
-            this.loading = true;
+        if(!this.selectedProgram.library || (this.selectedProgram.library && confirm('既存ファイルを削除して、再ダウンロードしますか?'))) {
 
-            this.stateService.isDownloading.next(true);
+            if (!this.loading) {
+                this.loading = true;
 
-          //  this.changeStatus.emit(true);
+                this.stateService.isDownloading.next(true);
 
-            let complete = false;
-            let downloadProgress = '';
+                //  this.changeStatus.emit(true);
 
-            let timer = setInterval(() =>{
-                if(complete){
-                    clearInterval(timer);
-                    this.stateService.isDownloading.next(false);
-                }
-                this.stateService.downloadProgress.next(downloadProgress);
+                let complete = false;
+                let downloadProgress = '';
 
-            }, 1000);
+                let timer = setInterval(() => {
+                    if (complete) {
+                        clearInterval(timer);
+                        this.stateService.isDownloading.next(false);
+                    }
+                    this.stateService.downloadProgress.next(downloadProgress);
 
-            this.radikoService.getTimeFree(this.station.id, this.selectedProgram, this.config.saveDir, (mes) => {
-                    downloadProgress = mes;
+                }, 1000);
 
-                }, () => {
-                    this.loading = false;
+                this.radikoService.getTimeFree(this.station.id, this.selectedProgram, this.config.saveDir, (mes) => {
+                        downloadProgress = mes;
 
-                    complete = true;
-                }
-            );
+                    }, () => {
+                        this.loading = false;
+
+                        complete = true;
+                    }
+                );
+            }
         }
     };
 

@@ -23,7 +23,6 @@ export class LibraryService{
             }
         });
     }
-
     /**
      * ライブラリ取得
      * @param stationId
@@ -31,6 +30,7 @@ export class LibraryService{
      * @returns {ILibrary}
      */
     public getLibrary = (stationId, program :IProgram) =>{
+        console.log(this.libraries.getValue());
         return this.libraries.getValue().filter(l => l.fullName.indexOf(program.title) != -1 && l.fullName.indexOf(stationId) != -1 && l.fullName.indexOf(program.ft.substr(0, 8)) != -1)[0];
     };
 

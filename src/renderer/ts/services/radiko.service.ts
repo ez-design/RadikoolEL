@@ -150,6 +150,9 @@ export class RadikoService{
 
                 if(m3u8 != ''){
                     if(saveDir) {
+                        fs.unlink(filename);
+
+
                         var spawn = require('child_process').spawn;
                         this.ffmpeg = spawn(Path.join(libDir, 'ffmpeg'), ['-i', m3u8, '-acodec', 'copy', filename]);
                         let duration = Utility.getDuration(program.ft, program.to);
