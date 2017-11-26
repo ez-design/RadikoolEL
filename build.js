@@ -7,7 +7,7 @@ packager({
     out: "./release",
     icon: "./src/images/icon.ico",
     platform: "win32",
-    arch: "x64",
+    arch: "ia32",
     overwrite: true,
     asar: false,
     "app-version": package["version"],
