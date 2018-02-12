@@ -41,17 +41,23 @@ import {LibraryService} from "../services/library.service";
                     <span *ngIf="selectedProgram.title">{{selectedProgram.title}}</span>
                     <span *ngIf="selectedProgram.pfm">{{selectedProgram.pfm}}</span>
                 </p>
-                <button type="button" class="button is-info" (click)="onClickDownload()" *ngIf="selectedProgram.downloadable">
+                <button type="button" class="button is-info" (click)="onClickDownload()" *ngIf="selectedProgram.downloadable && !selectedProgram.library">
                     <span class="icon">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </span>
-                    <span>{{ !selectedProgram.library ? 'ダウンロード' : '再ダウンロード' }}</span>
+                    <span>ダウンロード</span>
                 </button>
-                <button type="button" class="button is-info" (click)="onClickPlay()" *ngIf="selectedProgram.library">
+                <button type="button" class="button is-success" (click)="onClickPlay()" *ngIf="selectedProgram.library">
                     <span class="icon">
-                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        <i class="fa fa-play-circle" aria-hidden="true"></i>
                     </span>
                     <span>再生</span>
+                </button>
+                <button type="button" class="button is-info" (click)="onClickDownload(true)" *ngIf="selectedProgram.downloadable && selectedProgram.library">
+                    <span class="icon">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    </span>
+                    <span>再ダウンロード</span>
                 </button>
             </div>
         </div>
@@ -198,38 +204,40 @@ export class ProgramListComponent implements OnInit, OnDestroy, OnChanges{
     /**
      * タイムフリーダウンロード
      */
-    private onClickDownload = () =>{
-        if(!this.selectedProgram.library || (this.selectedProgram.library && confirm('既存ファイルを削除して、再ダウンロードしますか?'))) {
-
-            if (!this.loading) {
-                this.loading = true;
-
-                this.stateService.isDownloading.next(true);
-
-                //  this.changeStatus.emit(true);
-
-                let complete = false;
-                let downloadProgress = '';
-
-                let timer = setInterval(() => {
-                    if (complete) {
-                        clearInterval(timer);
-                        this.stateService.isDownloading.next(false);
-                    }
-                    this.stateService.downloadProgress.next(downloadProgress);
-
-                }, 1000);
-
-                this.radikoService.getTimeFree(this.station.id, this.selectedProgram, this.config.saveDir, (mes) => {
-                        downloadProgress = mes;
-
-                    }, () => {
-                        this.loading = false;
-
-                        complete = true;
-                    }
-                );
+    private onClickDownload = (redownload: boolean = false) =>{
+        if(!this.loading) {
+            if(redownload && !confirm('既存のファイルを削除して再ダウンロードしますか？')){
+                return;
             }
+
+
+            this.loading = true;
+
+            this.stateService.isDownloading.next(true);
+
+          //  this.changeStatus.emit(true);
+
+            let complete = false;
+            let downloadProgress = '';
+
+            let timer = setInterval(() =>{
+                if(complete){
+                    clearInterval(timer);
+                    this.stateService.isDownloading.next(false);
+                }
+                this.stateService.downloadProgress.next(downloadProgress);
+
+            }, 1000);
+
+            this.radikoService.getTimeFree(this.station.id, this.selectedProgram, this.config.saveDir, (mes) => {
+                    downloadProgress = mes;
+
+                }, () => {
+                    this.loading = false;
+
+                    complete = true;
+                }
+            );
         }
     };
 

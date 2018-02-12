@@ -128,6 +128,7 @@ export class RadikoService{
             headers.append('X-Radiko-AuthToken', token);
 
             let filename = program.title + '.aac';
+            filename = Utility.trimFileName(filename);
             let path = require('path');
             filename = path.join(saveDir, stationId, program.ft.substr(0, 8), filename);
 
@@ -138,7 +139,13 @@ export class RadikoService{
             }
 
             let duration = Utility.getDuration(program.ft, program.to);
-            this.http.post('https://radiko.jp/v2/api/ts/playlist.m3u8?station_id=' + stationId + '&ft=' + program.ft + '&to=' + program.to, {}, {headers: headers}).subscribe(res => {
+            this.http.post('https://radiko.jp/v2/api/ts/playlist.m3u8?station_id=' + stationId + '&ft=' + program.ft + '&to=' + program.to, {}, {headers: headers})
+                .catch(res =>{
+                    alert('m3u8の取得に失敗しました\nタイムフリー対象外の可能性があります');
+                    callback();
+                    return Observable.throw('error');
+                })
+                .subscribe(res => {
                 let m3u8 = '';
                 let lines = res.text().split(/\r\n|\r|\n/);
                 for(let i=0 ; i< lines.length ; i++) {
@@ -151,8 +158,6 @@ export class RadikoService{
                 if(m3u8 != ''){
                     if(saveDir) {
                         fs.unlink(filename);
-
-
                         var spawn = require('child_process').spawn;
                         this.ffmpeg = spawn(Path.join(libDir, 'ffmpeg'), ['-i', m3u8, '-acodec', 'copy', filename]);
                         let duration = Utility.getDuration(program.ft, program.to);

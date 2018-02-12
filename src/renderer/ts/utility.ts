@@ -7,7 +7,7 @@ export class Utility{
      * @returns {T}
      */
     public static copy<T>(src:T){
-        let res = {};
+        let res:any = {};
         for(let key in src){
             res[key] = src[key];
         }
@@ -58,5 +58,24 @@ export class Utility{
         let d2 = new Date(parseInt(to.substr(0, 4), 10), parseInt(to.substr(4, 2), 10) -1, parseInt(to.substr(6, 2), 10), parseInt(to.substr(8, 2), 10), parseInt(to.substr(10, 2), 10));
         let duration = Math.round((d2.getTime() - d1.getTime()) / 1000);
         return duration;
+    };
+
+    /**
+     * ファイル名に使えない文字を全角に変換
+     * @param fileName
+     * @returns {string}
+     */
+    public static trimFileName = (fileName: string) => {
+        fileName = fileName.replace(/\//g, '／');
+        fileName = fileName.replace(/\\/g, '￥');
+        fileName = fileName.replace(/:/g, '：');
+        fileName = fileName.replace(/\*/g, '＊');
+        fileName = fileName.replace(/\?/g, '？');
+        fileName = fileName.replace(/"/g, '”');
+        fileName = fileName.replace(/</g, '＜');
+        fileName = fileName.replace(/>/g, '＞');
+        fileName = fileName.replace(/\|/g, '｜');
+
+        return fileName;
     };
 }
